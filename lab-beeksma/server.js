@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
       res.writeHead(400, {
         'Content-Type': 'text/plain',
       });
-      res.write(cowsay.say({ text: 'bad request' }));
+      res.write(cowsay.say({ text: 'bad request', f: 'hedgehog' }));
       res.end();
     }
   }
@@ -47,7 +47,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(404, {
       'Content-Type': 'text/plain',
     });
-    res.write('No cows here!');
+    res.write(cowsay.say({ text: 'No cows here!', f: 'stegosaurus' }));
     res.end();
   }
   res.end();
