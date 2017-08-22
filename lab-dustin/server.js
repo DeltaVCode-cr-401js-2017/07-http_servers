@@ -18,46 +18,69 @@ const server = http.createServer((req,res) => {
   console.log('qs',req.url.query);
 
 
-  bodyParser(req,(err,body,message) => {
-    if (message) { console.log(message); }
+  bodyParser(req,(err,body) => {
+
     const reqContentType = req.headers['content-type'];
     switch (reqContentType){
       case 'application/json':
         try {
           req.body = JSON.parse(body);
           console.log('json',body);
-          res.writeHead(200,{ 'Content-Type': 'text/plain' });
-          res.write(message);
+          if (req.url.pathname === '/cowsay'){
+            console.log(cowsay.say(JSON.parse(body)));
+            res.write(cowsay.say(JSON.parse(body)));
+          } else {
+            res.writeHead(200,{ 'Content-Type': reqContentType });
+            res.write(body);
+          }
         } catch (err) {
           res.writeHead(400);
           res.write(err.message);
-          return res.end();
         }
-        break;
+        return res.end();
+
       case 'text/plain':
-        break;
+        try {
+          console.log('text',body);
+          if (req.url.pathname === '/cowsay'){
+            console.log(cowsay.say({text: body}));
+            res.write(cowsay.say({text: body}));
+          } else {
+            res.writeHead(200,{ 'Content-Type': reqContentType });
+            res.write(body);
+            return res.end();
+          }
+        } catch (err) {
+          console.error(err);
+          res.writeHead(400);
+          res.write(err.message);
+        }
+        return res.end();
+
       default:
         console.warn(`Unexpected content-type: ${reqContentType}`);
         res.writeHead(400);
         return res.end();
     }
-
-    res.end();
   });
 });
 
 function bodyParser(req,callback){
+  var body = '';
   switch (req.method){
     case 'POST':
     case 'PUT':
-      var body = '';
-
       req.on('data',buf => {
         body += buf.toString();
       });
 
-      req.on('end',() => callback(null,body,'hello from my server!'));
+      req.on('end',() => callback(null,body));
       req.on('error', err => callback(err));
+      break;
+    case 'GET':
+      req.on('end',() => {
+        callback(null,body);
+      });
       break;
     default:
       req.body = null;
