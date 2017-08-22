@@ -7,14 +7,8 @@ const querystring = require('querystring');
 const cowsay = require('cowsay');
 
 const server = http.createServer((req, res) => {
-  console.log('req.url', req.url);
-  console.log('req.method', req.method);
-
   req.url = url.parse(req.url);
-  console.log('url', req.url);
-
   req.url.query = querystring.parse(req.url.query);
-  console.log('qs', req.url.query);
 
   if(req.url.pathname === '/'){
     res.writeHead(200, {
@@ -33,18 +27,15 @@ const server = http.createServer((req, res) => {
     }
     else if(req.method === 'POST' && req.headers['content-type'] === 'application/json') {
       bodyParser(req, (err,body) =>{
-        console.log(body);
         if(body.length){
           var textyBody = body.filter(item => {
             return item.text;
           });
-          console.log(textyBody);
           if(textyBody.length > 0){
             res.writeHead(200, {
               'Content-Type': 'text/plain',
             });
             textyBody.forEach(thing => {
-              console.log(thing);
               res.write(cowsay.say(thing));
               res.write(`\r\n`);
             });
