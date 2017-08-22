@@ -52,11 +52,13 @@ const server = http.createServer((req, res) =>{
           if (req.method === 'POST' && req.url.pathname === '/cowsay') {
             req.body = JSON.parse(body);
 
+            console.log(req.body);
+
             res.writeHead(200, {
               'Content-Type': 'application/json',
             });
-            res.write(cowsay.say({ text: stuff }));
-            res.end();
+            res.write(cowsay.say());
+            return res.end();
           }
         }
         catch (err){
