@@ -26,6 +26,7 @@ const server = http.createServer((req,res) => {
         try {
           req.body = JSON.parse(body);
           console.log('json',body);
+          res.writeHead(200,{ 'Content-Type': 'text/plain' });
           res.write(message);
         } catch (err) {
           res.writeHead(400);
