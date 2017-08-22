@@ -31,9 +31,28 @@ const server = http.createServer((req, res) => {
       res.write(cowsay.say(req.url.query));
       res.end();
     }
-    else if(req.method === 'POST') {
-      //postHandler();
-      res.end();
+    else if(req.method === 'POST' && req.headers['content-type'] === 'application/json') {
+      bodyParser(req, (err,body) =>{
+        console.log(body);
+        if(body.length){
+          var textyBody = body.filter(item => {
+            return item.text;
+          });
+          console.log(textyBody);
+          if(textyBody.length > 0){
+            res.writeHead(200, {
+              'Content-Type': 'text/plain',
+            });
+            textyBody.forEach(thing => {
+              console.log(thing);
+              var moo = cowsay.say(thing);
+              console.log(moo);
+              res.write(moo);
+            });
+            return res.end();
+          }
+        }
+      });
     }
     else {
       res.writeHead(400, {
@@ -50,8 +69,17 @@ const server = http.createServer((req, res) => {
     res.write(cowsay.say({ text: 'No cows here!', f: 'stegosaurus' }));
     res.end();
   }
-  res.end();
 });
+
+
+function bodyParser(req, callback) {
+  let body = '';
+  req.on('data', buf => {
+    body += buf.toString();
+  });
+  req.on('end', () => callback(null, JSON.parse(body)));
+  req.on('error', err => callback(err));
+}
 
 server.listen(PORT, () => {
   console.log(`HTTP listening on ${PORT}`);
