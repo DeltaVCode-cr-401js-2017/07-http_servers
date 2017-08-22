@@ -4,6 +4,7 @@ const http = require('http');
 const PORT = process.env.PORT || 3000;
 const url = require('url');
 const querystring = require('querystring');
+const cowsay = require('cowsay');
 
 const server = http.createServer((req, res) => {
   console.log('req.url', req.url);
@@ -23,8 +24,11 @@ const server = http.createServer((req, res) => {
     res.end();
   }
   else if(req.url.pathname === '/cowsay'){
-    if(req.method === 'GET'){
-      //getHandler();
+    if(req.method === 'GET' && req.url.query.text){
+      res.writeHead(200, {
+        'Content-Type': 'text/plain',
+      });
+      res.write(cowsay.say(req.url.query));
       res.end();
     }
     else if(req.method === 'POST') {
