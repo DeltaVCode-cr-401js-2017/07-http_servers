@@ -1,4 +1,4 @@
-![cf](https://i.imgur.com/7v5ASc8.png) Lab 07: Vanilla HTTP Server
+![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) Lab 07: Vanilla HTTP Server
 ======
 
 ## Submission Instructions
@@ -21,6 +21,10 @@ Your lab directory must include
 * `.eslintrc`
 * `package.json`
 * `README.md`
+
+Your `package.json` must include `scripts` for:
+* `lint`
+* `test`
 
 #### Feature Tasks  
 * create an HTTP Server using the NodeJS `http` module
