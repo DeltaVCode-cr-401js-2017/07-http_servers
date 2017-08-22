@@ -22,6 +22,26 @@ const server = http.createServer((req, res) => {
     res.write('hello from my server!');
     res.end();
   }
+  else if(req.url.pathname === '/cowsay'){
+    if(req.method === 'GET'){
+      //getHandler();
+      res.end();
+    }
+    else if(req.method === 'POST') {
+      //postHandler();
+      res.end();
+    }
+    else {
+      res.end();
+    }
+  }
+  else{
+    res.writeHead(404, {
+      'Content-Type': 'text/plain',
+    });
+    res.write('No cows here!');
+    res.end();
+  }
   res.end();
 });
 
