@@ -50,6 +50,21 @@ const server = http.createServer((req, res) => {
             });
             return res.end();
           }
+          else{
+            badRequestHedgehog(res);
+          }
+        }
+        else{
+          if(body.text){
+            res.writeHead(200, {
+              'Content-Type': 'text/plain',
+            });
+            res.write(cowsay.say(body));
+            return res.end();
+          }
+          else{
+            badRequestHedgehog(res);
+          }
         }
       });
     }
