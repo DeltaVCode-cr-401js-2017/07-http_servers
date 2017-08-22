@@ -54,11 +54,7 @@ const server = http.createServer((req, res) => {
       });
     }
     else {
-      res.writeHead(400, {
-        'Content-Type': 'text/plain',
-      });
-      res.write(cowsay.say({ text: 'bad request', f: 'hedgehog' }));
-      res.end();
+      badRequestHedgehog(res);
     }
   }
   else{
@@ -69,6 +65,14 @@ const server = http.createServer((req, res) => {
     res.end();
   }
 });
+
+function badRequestHedgehog(res){
+  res.writeHead(400, {
+    'Content-Type': 'text/plain',
+  });
+  res.write(cowsay.say({ text: 'bad request', f: 'hedgehog' }));
+  res.end();
+}
 
 
 function bodyParser(req, callback) {
