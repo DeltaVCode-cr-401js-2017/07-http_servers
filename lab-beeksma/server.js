@@ -45,9 +45,8 @@ const server = http.createServer((req, res) => {
             });
             textyBody.forEach(thing => {
               console.log(thing);
-              var moo = cowsay.say(thing);
-              console.log(moo);
-              res.write(moo);
+              res.write(cowsay.say(thing));
+              res.write(`\r\n`);
             });
             return res.end();
           }
