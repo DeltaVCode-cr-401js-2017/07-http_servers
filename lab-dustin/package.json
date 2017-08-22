@@ -1,0 +1,24 @@
+{
+  "name": "07-http_servers",
+  "version": "1.0.0",
+  "description": "![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) Lab 07: Vanilla HTTP Server\r ======",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dustinyschild/07-http_servers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dustinyschild/07-http_servers/issues"
+  },
+  "homepage": "https://github.com/dustinyschild/07-http_servers#readme",
+  "dependencies": {
+    "cowsay": "^1.1.9"
+  }
+}
