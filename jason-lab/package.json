@@ -1,0 +1,25 @@
+{
+  "name": "07-http_servers",
+  "version": "1.0.0",
+  "description": "![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) Lab 07: Vanilla HTTP Server ======",
+  "main": "index.js",
+  "start": "node server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nerdbetter/07-http_servers.git"
+  },
+  "author": "Jason Logan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nerdbetter/07-http_servers/issues"
+  },
+  "homepage": "https://github.com/nerdbetter/07-http_servers#readme",
+  "dependencies": {
+    "l": "^0.6.0",
+    "node": "^8.3.0",
+    "nodemon": "^1.11.0"
+  }
+}
