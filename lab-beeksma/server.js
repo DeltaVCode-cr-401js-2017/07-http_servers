@@ -15,6 +15,13 @@ const server = http.createServer((req, res) => {
   req.url.query = querystring.parse(req.url.query);
   console.log('qs', req.url.query);
 
+  if(req.url.pathname === '/'){
+    res.writeHead(200, {
+      'Content-Type': 'text/plain',
+    });
+    res.write('hello from my server!');
+    res.end();
+  }
   res.end();
 });
 
