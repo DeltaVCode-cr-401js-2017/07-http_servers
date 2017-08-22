@@ -20,5 +20,8 @@
   "homepage": "https://github.com/dustinyschild/07-http_servers#readme",
   "dependencies": {
     "cowsay": "^1.1.9"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
