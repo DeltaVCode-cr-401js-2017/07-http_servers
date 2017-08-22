@@ -4,7 +4,7 @@
   "description": "- The logData function accepts an array of files.  \r - It will read those files in the order they are given, and console log the first 8 bytes in the file.\r - Any files to be read must be in the assets folder.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "start": "node .",
     "lint": "eslint ."
   },
