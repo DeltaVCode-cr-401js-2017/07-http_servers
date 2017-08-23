@@ -20,48 +20,60 @@ const server = http.createServer((req,res) => {
 
   bodyParser(req,(err,body) => {
 
-    const reqContentType = req.headers['content-type'];
-    switch (reqContentType){
-      case 'application/json':
-        try {
-          req.body = JSON.parse(body);
-          console.log('json',body);
-          if (req.url.pathname === '/cowsay'){
-            console.log(cowsay.say(JSON.parse(body)));
-            res.write(cowsay.say(JSON.parse(body)));
-          } else {
-            res.writeHead(200,{ 'Content-Type': reqContentType });
-            res.write(body);
-          }
-        } catch (err) {
-          res.writeHead(400);
-          res.write(err.message);
-        }
+    if (req.method === 'GET'){
+      if (req.url.query.text){
+        res.writeHead(200,{ 'Content-Type': 'text/plain' });
+        res.write(cowsay.say(req.url.query));
         return res.end();
-
-      case 'text/plain':
-        try {
-          console.log('text',body);
-          if (req.url.pathname === '/cowsay'){
-            console.log(cowsay.say({text: body}));
-            res.write(cowsay.say({text: body}));
-          } else {
-            res.writeHead(200,{ 'Content-Type': reqContentType });
-            res.write(body);
-            return res.end();
-          }
-        } catch (err) {
-          console.error(err);
-          res.writeHead(400);
-          res.write(err.message);
-        }
-        return res.end();
-
-      default:
-        console.warn(`Unexpected content-type: ${reqContentType}`);
-        res.writeHead(400);
-        return res.end();
+      } else {
+        res.writeHead(400,{ 'Content-Type': 'text/plain'});
+        res.write(cowsay.say({text: 'Bad Request'}));
+      }
     }
+
+    if (req.method === 'POST' || req.method === 'PUT'){
+      const reqContentType = req.headers['content-type'];
+      switch (reqContentType){
+        case 'application/json':
+          try {
+            req.body = JSON.parse(body);
+            console.log('json',body);
+            if (req.url.pathname === '/cowsay' && req.body.text){
+              console.log(reqContentType);
+              res.writeHead(200,{ 'Content-Type': 'text/plain' });
+              console.log(cowsay.say(req.body));
+              res.write(cowsay.say(req.body));
+            } else {
+              res.writeHead(400,{ 'Content-Type': 'text/plain' });
+              res.write('Error: Invalid jason request');
+            }
+          } catch (err) {
+            res.writeHead(400);
+            res.write(err.message);
+          }
+          break;
+        case 'text/plain':
+          try {
+            console.log('text',body);
+            if (req.url.pathname === '/cowsay'){
+              console.log(cowsay.say({text: body}));
+              res.write(cowsay.say({text: body}));
+            } else {
+              res.writeHead(200,{ 'Content-Type': reqContentType });
+              res.write(body);
+            }
+          } catch (err) {
+            console.error(err);
+            res.writeHead(400);
+            res.write(err.message);
+          }
+          break;
+        default:
+          console.warn(`Unexpected content-type: ${reqContentType}`);
+          res.writeHead(400);
+      }
+    }
+    return res.end();
   });
 });
 
@@ -78,9 +90,7 @@ function bodyParser(req,callback){
       req.on('error', err => callback(err));
       break;
     case 'GET':
-      req.on('end',() => {
-        callback(null,body);
-      });
+      callback(null,req.url.query);
       break;
     default:
       req.body = null;
