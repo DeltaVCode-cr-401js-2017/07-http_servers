@@ -4,8 +4,9 @@
   "description": "![DV](https://www.deltavcodeschool.com/wp-content/uploads/DeltaV.png) Lab 07: Vanilla HTTP Server\r ======",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ."
+    "test": "echo \"Error: no test specified\"",
+    "start": "nodemon .",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,8 @@
   },
   "homepage": "https://github.com/dustinyschild/07-http_servers#readme",
   "dependencies": {
-    "cowsay": "^1.1.9"
+    "cowsay": "^1.1.9",
+    "eslint": "^4.5.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
