@@ -29,26 +29,6 @@ const server = http.createServer((req, res) =>{
       case 'application/json':
         console.log(`${reqContentType}`, body);
         try {
-          if(req.method === 'GET' && req.url.pathname === '/'){
-            res.writeHead(200, {
-              'Content-Type': 'text/plain',
-            });
-            res.write('Welcome to my server!');
-            res.end();
-          }
-          if(req.method === 'GET' && req.url.pathname === '/cowsay'){
-            if(!req.url.query.text){
-              res.writeHead(400);
-              res.write(cowsay.say({ text: 'bad request' }));
-              return res.end();
-            }
-            res.writeHead(200, {
-              'Content-Type': 'text/plain'
-            });
-            res.write(cowsay.say({text: req.url.query.text}));
-            return res.end();
-          }
-
           if (req.method === 'POST' && req.url.pathname === '/cowsay') {
             req.body = JSON.parse(body);
 
@@ -70,9 +50,34 @@ const server = http.createServer((req, res) =>{
         break;
 
       case 'text/plain':
-        res.write(body);
-        console.log(`${reqContentType}`, body);
-        return res.end();
+        try{
+          if(req.method === 'GET' && req.url.pathname === '/'){
+            res.writeHead(200, {
+              'Content-Type': 'text/plain',
+            });
+            res.write('Welcome to my server!');
+            return res.end();
+          }
+          if(req.method === 'GET' && req.url.pathname === '/cowsay'){
+            if(!req.url.query.text){
+              res.writeHead(400);
+              res.write(cowsay.say({ text: 'bad request' }));
+              return res.end();
+            }
+            res.writeHead(200, {
+              'Content-Type': 'text/plain'
+            });
+            res.write(cowsay.say({text: req.url.query.text}));
+            return res.end();
+          }
+        }
+        catch (err){
+          res.writeHead(400);
+          res.write(err.message);
+          console.log(err);
+          return res.end();
+        }
+        break;
     }
 
     res.writeHead(200, {'Content-Type': 'text/plain'});
