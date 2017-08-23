@@ -55,9 +55,9 @@ const server = http.createServer((req, res) =>{
             console.log(req.body);
 
             res.writeHead(200, {
-              'Content-Type': 'application/json',
+              'Content-Type': 'text/plain',
             });
-            res.write(cowsay.say());
+            res.write(cowsay.say(req.body));
             return res.end();
           }
         }
