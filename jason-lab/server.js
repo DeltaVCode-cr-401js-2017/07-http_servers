@@ -17,13 +17,34 @@ const server = http.createServer((req, res) =>{
   console.log('qs', req.url.query);
 
   bodyParser(req, (err, body) => {
+
+    const cowsay = require('cowsay');
+    const reqContentType = req.headers['content-type'];
+    
     if (err){
       res.writeHead(500);
       res.write(err.toString());
     }
 
-    const cowsay = require('cowsay');
-    const reqContentType = req.headers['content-type'];
+    if(req.method === 'GET' && req.url.pathname === '/'){
+      res.writeHead(200, {
+        'Content-Type': 'text/plain',
+      });
+      res.write('Welcome to my server!');
+      return res.end();
+    }
+    if(req.method === 'GET' && req.url.pathname === '/cowsay'){
+      if(!req.url.query.text){
+        res.writeHead(400);
+        res.write(cowsay.say({ text: 'bad request' }));
+        return res.end();
+      }
+      res.writeHead(200, {
+        'Content-Type': 'text/plain'
+      });
+      res.write(cowsay.say({text: req.url.query.text}));
+      return res.end();
+    }
 
     switch(reqContentType){
       case 'application/json':
@@ -50,26 +71,9 @@ const server = http.createServer((req, res) =>{
         break;
 
       case 'text/plain':
+        console.log(`${reqContentType}`, body);
         try{
-          if(req.method === 'GET' && req.url.pathname === '/'){
-            res.writeHead(200, {
-              'Content-Type': 'text/plain',
-            });
-            res.write('Welcome to my server!');
-            return res.end();
-          }
-          if(req.method === 'GET' && req.url.pathname === '/cowsay'){
-            if(!req.url.query.text){
-              res.writeHead(400);
-              res.write(cowsay.say({ text: 'bad request' }));
-              return res.end();
-            }
-            res.writeHead(200, {
-              'Content-Type': 'text/plain'
-            });
-            res.write(cowsay.say({text: req.url.query.text}));
-            return res.end();
-          }
+          console.log(`${reqContentType}`, body);
         }
         catch (err){
           res.writeHead(400);
