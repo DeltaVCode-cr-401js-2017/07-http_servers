@@ -27,6 +27,13 @@ const server = http.createServer((req, res) => {
     }
     else if(req.method === 'POST' && req.headers['content-type'] === 'application/json') {
       bodyParser(req, (err,body) =>{
+        if(err){
+          res.writeHead(500, {
+            'Content-Type': 'text/plain',
+          });
+          res.write(cowsay.say({ text: 'I find your lack of functionality disturbing', f: 'vader' }));
+          return res.end();
+        }
         if(body.length){
           var textyBody = body.filter(item => {
             return item.text;
@@ -43,6 +50,7 @@ const server = http.createServer((req, res) => {
           }
           else{
             badRequestHedgehog(res);
+            return;
           }
         }
         else{
@@ -55,12 +63,14 @@ const server = http.createServer((req, res) => {
           }
           else{
             badRequestHedgehog(res);
+            return;
           }
         }
       });
     }
     else {
       badRequestHedgehog(res);
+      return;
     }
   }
   else{
@@ -68,7 +78,7 @@ const server = http.createServer((req, res) => {
       'Content-Type': 'text/plain',
     });
     res.write(cowsay.say({ text: 'No cows here!', f: 'stegosaurus' }));
-    res.end();
+    return res.end();
   }
 });
 
