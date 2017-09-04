@@ -20,7 +20,7 @@ const server = http.createServer((req, res) =>{
 
     const cowsay = require('cowsay');
     const reqContentType = req.headers['content-type'];
-    
+
     if (err){
       res.writeHead(500);
       res.write(err.toString());
@@ -56,7 +56,7 @@ const server = http.createServer((req, res) =>{
             console.log(req.body);
 
             res.writeHead(200, {
-              'Content-Type': 'text/plain',
+              'Content-Type': 'application/json',
             });
             res.write(cowsay.say(req.body));
             return res.end();
