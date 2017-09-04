@@ -20,6 +20,7 @@
   "homepage": "https://github.com/nerdbetter/07-http_servers#readme",
   "dependencies": {
     "cowsay": "^1.1.9",
+    "eslint": "^4.6.1",
     "l": "^0.6.0",
     "node": "^8.3.0",
     "nodemon": "^1.11.0"
